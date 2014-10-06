@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+    	<head>
+    		<meta charset="UTF-8">
+    		<title>SpeedAlert</title>
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    		<!--
+    			<link rel="shortcut icon" href="images/favicon.png">
+    			<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
+    		-->
+    		<link rel="stylesheet" href="css/main.css">
+    		<script>window.$ = window.jQuery = WLJQ;</script>
+    	</head>
+    	<body style="display: none;">
+    		<!--application UI goes here-->
+    		
+    		<script src="js/initOptions.js"></script>
+    		<script src="js/main.js"></script>
+    		<script src="js/messages.js"></script>
+    		<button onClick="getLocation();">Get Location</button>
+    		<div id="latLong">
+    			Current Latitude <div id="curLatitude"></div>
+    			Current Longitude <div id="curLongitude"></div>
+    		</div>
+    		<button onClick="watchLocation();">Watch Location</button>
+    		<div id="latLong">
+    			Live Latitude <div id="liveLatitude"></div>
+    			Live Longitude <div id="liveLongitude"></div>
+    		</div>
+    	</body>
+</html>
