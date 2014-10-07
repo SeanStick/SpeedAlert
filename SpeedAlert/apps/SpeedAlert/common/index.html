@@ -17,15 +17,12 @@
     		<script src="js/initOptions.js"></script>
     		<script src="js/main.js"></script>
     		<script src="js/messages.js"></script>
-    		<button onClick="getLocation();">Get Location</button>
-    		<div id="latLong">
-    			Current Latitude <div id="curLatitude"></div>
-    			Current Longitude <div id="curLongitude"></div>
-    		</div>
-    		<button onClick="watchLocation();">Watch Location</button>
-    		<div id="latLong">
-    			Live Latitude <div id="liveLatitude"></div>
-    			Live Longitude <div id="liveLongitude"></div>
-    		</div>
+    		<script src="js/raphael.2.1.0.min.js"></script>
+    		<script src="js/justgage.1.0.1.min.js"></script>
+    		<input type="text" id="howFar" value=".2" /><br />   		
+    		<button onClick="watchLocation();" id="startStopGPS">Start</button>
+    		<button onClick="tryIt();" id="startStopGPS">Get Speed Limits</button>
+    		<div id="speedLimit"></div>
+    		<div id="speed"></div>
     	</body>
 </html>

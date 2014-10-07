@@ -23,4 +23,6 @@
             <packageName/>
         </security>
     </android>
+    <mobileWebApp cacheManifest="no-use"/>
+    <desktopBrowser cacheManifest="no-use"/>
 </application>
