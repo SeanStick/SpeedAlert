@@ -4,10 +4,13 @@
 /images/thumbnail.png
 /index.html
 /js/initOptions.js
+/js/jquery-1.11.1.min.js
 /js/justgage.1.0.1.min.js
 /js/main.js
 /js/messages.js
 /js/raphael.2.1.0.min.js
+/js/settings.js
+/settings.html
 /worklight/checksum.js
 /worklight/cordova.js
 /worklight/cordova_plugins.js

@@ -79,7 +79,6 @@ function getSpeedData(){
         cache: false,
         dataType: "xml",
         success: function(xml) {
-        	alert(xml);
         	$(xml).find("osm").find("tag[k='maxspeed']").each(function() {        		
              //alert ($(this).attr ('v'));
         		$("#speedLimit").append($(this).attr ('v')+ " ")

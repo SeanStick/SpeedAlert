@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+    	<head>
+    		<meta charset="UTF-8">
+    		<title>SpeedAlert</title>
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    		<!--
+    			<link rel="shortcut icon" href="images/favicon.png">
+    			<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
+    		-->
+    		<link rel="stylesheet" href="css/main.css">
+    	</head>
+    	<body >
+    		<!--application UI goes here-->
+    		<script src="js/jquery-1.11.1.min.js"></script>
+    		<script src="js/main.js"></script>
+    		<script src="js/settings.js"></script>
+    		<script src="js/messages.js"></script>
+    		<script>
+    		$( document ).ready(function() {
+    			checkStorage()
+			    getSettings();			    
+			});
+			</script>
+    		<a href="index.html">Back</a><br />
+    		
+    		<div>Distance to check: <input type="text" id="howFar" value="" /></div>
+    		<button onClick="saveSettings();">Save Settings</button>
+    	</body>
+</html>
