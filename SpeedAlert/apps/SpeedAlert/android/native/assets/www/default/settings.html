@@ -9,6 +9,7 @@
     			<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
     		-->
     		<link rel="stylesheet" href="css/main.css">
+    		<link rel="stylesheet" href="css/slider.css">
     	</head>
     	<body >
     		<!--application UI goes here-->
@@ -16,6 +17,8 @@
     		<script src="js/main.js"></script>
     		<script src="js/settings.js"></script>
     		<script src="js/messages.js"></script>
+    		<script src="js/simple-slider.js"></script>
+    		
     		<script>
     		$( document ).ready(function() {
     			checkStorage()
@@ -24,7 +27,8 @@
 			</script>
     		<a href="index.html">Back</a><br />
     		
-    		<div>Distance to check: <input type="text" id="howFar" value="" /></div>
+    		<div>Accuracy: <input type="text" data-slider="true" data-slider-range=".160935,.804674" value="" id="howFarSlide"><input type="text" id="howFar" value="" /></div>
+    		<div>Max speedometer: <input type="text" id="maxSpeed" value="" /></div>
     		<button onClick="saveSettings();">Save Settings</button>
     	</body>
 </html>

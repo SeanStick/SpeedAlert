@@ -3,11 +3,12 @@ function wlCommonInit(){}
 var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong = null;
 
 function watchLocation(){
+	
 	 speed = new JustGage({
 	    id: "speed",
 	    value: 0,
 	    min: 0,
-	    max: 100,
+	    max: localStorage.maxSpeed,
 	    title: "Current Speed"
 	  });
 	 if (watchID != null) {
@@ -41,7 +42,7 @@ function someCrazyLatLongConversion(curLat, curLong){
 	var lat1 = curLat;
     var lon1 = curLong;
     //var d = .2;   //Distance in km
-    var d = $("#howFar").val();
+    var d = localStorage.howFar;
     console.log("Distance" + d)
     var R = 6371;
     var brng = 0;
