@@ -1,0 +1,9 @@
+#compass{width:200px;
+		height:195px;
+		background-image: url('../images/compassBG.png');}
+		
+#compassNeedle {position: relative;
+    top: 10px;
+    left: 92px;} 
+    
+ .speedBox {width:100px; height:80px;}

@@ -1,9 +1,9 @@
 function wlCommonInit(){}
 // Global variables
-var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong = null;
+var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished = null;
 
-function watchLocation(){
-	
+	function watchLocation(){	
+	hasFinished = true;
 	 speed = new JustGage({
 	    id: "speed",
 	    value: 0,
@@ -11,19 +11,20 @@ function watchLocation(){
 	    max: localStorage.maxSpeed,
 	    title: "Current Speed"
 	  });
+	 
 	 if (watchID != null) {
 	    navigator.geolocation.clearWatch(watchID);
 	    watchID = null;
 	    $("#speed").html("")
 	    $("#startStopGPS").html("Start")
+	    clearInterval(theTimer);
 	 }
-	 else {
+	 else {		
 		 watchID = navigator.geolocation.watchPosition(
 		 function(success){		
 			 currentLat = success.coords.latitude;
 			 currentLong = success.coords.longitude;
-			 //$("#liveLatitude").html(success.coords.latitude);
-			 //$("#liveLongitude").html(success.coords.longitude);	
+			 $("#compassNeedle").rotate({animateTo:success.coords.heading});
 			 speed.refresh(Math.round(success.coords.speed * 2.23694));
 			
 		 }, function(error){
@@ -31,11 +32,21 @@ function watchLocation(){
 		 },
 		 {enableHighAccuracy: true}); 
 		 $("#startStopGPS").html("Stop")
+		// tryIt();
+		 theTimer = setInterval(function() {
+			tryIt();
+		 }, localStorage.howOften * 1000);
 	 }	 
 }
 
 function tryIt(){
-	someCrazyLatLongConversion(currentLat,currentLong);
+	
+	if(hasFinished){
+		hasFinished = false;
+		console.log("has finished: " + hasFinished)
+		someCrazyLatLongConversion(currentLat,currentLong);
+		
+	}	
 }
 
 function someCrazyLatLongConversion(curLat, curLong){
@@ -69,18 +80,22 @@ function toRad(Value) {
 }
  
 function getSpeedData(){
-	$("#speedLimit").html("")	
+	//$("#speedLimit").html("")	
 	path = 'http://www.overpass-api.de/api/xapi?*[maxspeed=*][bbox=' + currentLong + ',' + currentLat + ',' + calculatedLong + ',' + calculatedLat +']';
 	console.log(path);
+	row = 0;
 	$.ajax({
         type: "GET",
         url: path,
         cache: false,
         dataType: "xml",
         success: function(xml) {
+        	hasFinished = true;
         	$(xml).find("osm").find("tag[k='maxspeed']").each(function() {        		
              //alert ($(this).attr ('v'));
-        		$("#speedLimit").append($(this).attr ('v')+ " ")
+        		//if (row == 0){
+        			$("#speedLimit").html($(this).attr ('v')+ " ");
+        		//}        		        		
             });        	
         }
     });

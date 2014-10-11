@@ -6,18 +6,23 @@ function checkStorage(){
 	if (! localStorage.maxSpeed){
 		localStorage.maxSpeed = "100";
 	}
+	if (! localStorage.howOften){
+		localStorage.howOften = "60";
+	}
 }
 
 function getSettings(){
 	console.log("Go");
-	console.log(localStorage.howFar);
+	console.log("How Far: " + localStorage.howFar);
 	//slider docs http://loopj.com/jquery-simple-slider/
-	$("#howFarSlider").val(localStorage.howFar);
-	howFarSlide.simpleSlider("setValue", localStorage.howFar);
+	$("#howFarSlide").simpleSlider("setValue", localStorage.howFar);	
 	$("#maxSpeed").val(localStorage.maxSpeed);
+	$("#howOften").val(localStorage.howOften);
+	
 }
 
 function saveSettings(){
 	localStorage.howFar = $("#howFarSlide").val();
 	localStorage.maxSpeed = $("#maxSpeed").val();
+	localStorage.howOften = $("#howOften").val();
 }
