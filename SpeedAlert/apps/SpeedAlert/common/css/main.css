@@ -1,9 +1,149 @@
-#compass{width:200px;
-		height:195px;
-		background-image: url('../images/compassBG.png');}
-		
-#compassNeedle {position: relative;
-    top: 10px;
-    left: 92px;} 
-    
- .speedBox {width:100px; height:80px;}
+body {
+	margin: 0;
+}
+#header{
+	width:100%;
+	height:3em;
+	background-color: #1e5799;
+	box-shadow: 0px 3px 3px #888888;
+}
+#header h1{
+	float:left;
+	margin:.1em 0em 0em .2em;
+	font-family: 'Droid Sans', sans-serif;
+}
+#content{
+	width:100%;
+	/*margin-top:5px;*/
+}
+#toolsButton{
+	float:right;
+	margin-right:.2em;
+}
+#toolsMenu{
+	position:fixed;
+	top:3.1em;
+	right:.2em;
+	background-color:#1e5799;
+	padding-right:.2em;
+	z-index: 205;
+}
+#toolsMenu ul{
+	margin:0;
+	padding:.5em 1em;
+}
+#toolsMenu li{
+	border-bottom:1px solid white;
+	padding:.5em 0;
+	width:100%;
+}
+#toolsMenu li:last-child{
+	border-bottom:none;
+}
+#toolsMenu a{
+	color:white;
+	font-weight:bold;
+	text-decoration:none;
+}
+#menuBackdrop{
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	z-index:200;
+}
+#startStopGPS{
+	background-color: green;
+}
+#startStopGPS,#getSpeedLimits{
+	width:98%;
+	height:3em;
+	margin:1%;
+	padding:0;
+	border: 1px solid #dedede;
+	border-radius: 4px;
+}
+@media (orientation:portrait) {
+	#compass{
+		width:90%;
+		height:87.75%; /* 97.5% of width */
+		background-image: url('../images/compassBG.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: 50%;
+		margin:0 auto;
+	}
+	#compassNeedle{
+		position: relative;
+		top: 5%;
+		left: 48%;
+	}
+	#speedLimitBox{
+		float:left;
+		width:40%;
+		height:154px;
+	}
+	#speedLimit{
+		font-size:23px;
+		font-weight: bold;
+		text-align:center;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.speedBox {
+		float:right;
+		width:60%;
+	}
+	#speed{
+		text-align:center;
+	}
+}
+@media (orientation:landscape) {
+	#compass{
+		width:30%;
+		height:29.25%; /* 97.5% of width */
+		background-image: url('../images/compassBG.png');
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: 50%;
+		margin:0 auto;
+		float:left;
+	}
+	#compassNeedle{
+		position: relative;
+		top: 5%;
+		left: 48%;
+	}
+	#speeds{
+		float:left;
+		width:65%;
+	}
+	#speedLimitBox{
+		float:left;
+		width:40%;
+		height:154px;
+	}
+	#speedLimit{
+		font-size:23px;
+		font-weight: bold;
+		text-align:center;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.speedBox {
+		float:left;
+		width:60%;
+	}
+	#speed{
+		text-align:center;
+	}
+}
+.displayNone{
+	display:none;
+}
+.clearBoth{
+	clear:both;
+}
