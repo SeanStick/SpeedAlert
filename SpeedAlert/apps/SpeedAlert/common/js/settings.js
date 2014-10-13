@@ -12,12 +12,11 @@ function checkStorage(){
 }
 
 function getSettings(){
-	console.log("Go");
-	console.log("How Far: " + localStorage.howFar);
 	//slider docs http://loopj.com/jquery-simple-slider/
+	$("#howFarSlide").simpleSlider();
 	$("#howFarSlide").simpleSlider("setValue", localStorage.howFar);	
 	$("#maxSpeed").val(localStorage.maxSpeed);
-	$("#howOften").val(localStorage.howOften);
+	$("#howOften").val(localStorage.howOften);	
 	
 }
 
@@ -25,4 +24,5 @@ function saveSettings(){
 	localStorage.howFar = $("#howFarSlide").val();
 	localStorage.maxSpeed = $("#maxSpeed").val();
 	localStorage.howOften = $("#howOften").val();
+	loadMain();
 }

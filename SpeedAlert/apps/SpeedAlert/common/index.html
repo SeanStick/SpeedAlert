@@ -10,11 +10,14 @@
     		-->
     		<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
     		<link rel="stylesheet" href="css/main.css">
-    		<script>window.$ = window.jQuery = WLJQ;</script>
+    		<link rel="stylesheet" href="css/slider.css">
+    		<script>window.$ = window.jQuery = WLJQ;
+    			
+    		</script>
+    		
     	</head>
     	<body style="display: none;">
-    		<!--application UI goes here-->
-    		
+    		<!--application UI goes here-->    		
     		<script src="js/initOptions.js"></script>
     		<script src="js/main.js"></script>
     		<script src="js/settings.js"></script>
@@ -22,26 +25,19 @@
     		<script src="js/raphael.2.1.0.min.js"></script>
     		<script src="js/justgage.1.0.1.min.js"></script>
     		<script src="js/rotate.js"></script>
+    		<script src="js/simple-slider.js"></script>
     		<div id="header">
     			<h1>Speed Alert</h1>
     			<img id="toolsButton" src="images/ic_action_overflow.png" border="0" />
     		</div>
    			<div id="toolsMenu" class="displayNone">
    				<ul>
-   					<li><a href="settings.html">Settings</a></li>
-   					<li><a href="disclaimer.html">Disclaimer</a></li>
+   					<li><a id="settings">Settings</a></li>
+   					<li><a id="disclaimer">Disclaimer</a></li>
    				</ul>
    			</div>
-   			<div id="content">
-	    		<button onClick="watchLocation();" id="startStopGPS">Start</button>
-	    		<div id="speeds">
-		    		<div id="speedLimitBox"><div id="speedLimit"></div></div>
-		    		<div id="speedBox" class="speedBox"><div id="speed"></div></div>
-		    		<div class="clearBoth"></div>
-	    		</div>
-	    		
-	    		<div id="compass"><img id="compassNeedle" src="images/needle.png"></div>
-    		</div>
+   			<!-- Dynamic Page Creation -->
+   			<div id="content"></div>
     		<div id="menuBackdrop" class="displayNone"></div>
     	</body>
 </html>

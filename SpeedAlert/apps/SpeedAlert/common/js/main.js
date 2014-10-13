@@ -1,15 +1,30 @@
 function wlCommonInit(){
 	setStyles();
-	$("#toolsButton,#menuBackdrop").click(function(){
+	$("#toolsButton,#menuBackdrop").click(function(event){
+		event.stopPropagation();
 		$("#toolsMenu,#menuBackdrop").toggle();
+	});
+	$('html').click(function() {
+		$("#toolsMenu,#menuBackdrop").hide();
 	});
 	$(window).on("resize", function(event){
 		setStyles();
 	});
+	//	load the main content
+	$("#content").load("main.html");
+	$("#settings").click(function(){
+		loadSettings();
+	});
+	$("#disclaimer").click(function(){
+		loadDisclaimer();
+	});	
+	document.addEventListener("pause", onPause, false);
+	document.addEventListener("resume", onResume, false);
+	
 }
 // Global variables
 var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished = null;
-
+var hasBeenStopped = false;
 function watchLocation(){
 	hasFinished = true;
 	 speed = new JustGage({
@@ -27,6 +42,7 @@ function watchLocation(){
 	    $("#speed,#speedLimit").html("");
 	    $("#startStopGPS").html("Start").css("background-color","green");
 	    clearInterval(theTimer);
+	    $("#compass").hide();
 	 }
 	 else {
 		 watchID = navigator.geolocation.watchPosition(
@@ -40,6 +56,7 @@ function watchLocation(){
 		 },
 		 {enableHighAccuracy: true}); 
 		 $("#startStopGPS").html("Stop").css("background-color","red");
+		 $("#compass").show();
 		// tryIt();
 		 theTimer = setInterval(function() {
 			tryIt();
@@ -47,20 +64,17 @@ function watchLocation(){
 	 }	 
 }
 
-function tryIt(){
-	
+function tryIt(){	
 	if(hasFinished){
 		hasFinished = false;
 		console.log("has finished: " + hasFinished);
-		someCrazyLatLongConversion(currentLat,currentLong);
-		
+		someCrazyLatLongConversion(currentLat,currentLong);		
 	}	
 }
 
 function someCrazyLatLongConversion(curLat, curLong){
 	var lat1 = curLat;
     var lon1 = curLong;
-    //var d = .2;   //Distance in km
     var d = localStorage.howFar;
     console.log("Distance" + d);
     var R = 6371;
@@ -80,7 +94,6 @@ function someCrazyLatLongConversion(curLat, curLong){
 }
 
 function toRad(Value) {
-    /** Converts numeric degrees to radians */
     return Value * Math.PI / 180;
 }
  function toDeg(Value) {
@@ -88,7 +101,6 @@ function toRad(Value) {
 }
  
 function getSpeedData(){
-	//$("#speedLimit").html("");	
 	path = 'http://www.overpass-api.de/api/xapi?*[maxspeed=*][bbox=' + currentLong + ',' + currentLat + ',' + calculatedLong + ',' + calculatedLat +']';
 	console.log(path);
 	row = 0;
@@ -107,6 +119,21 @@ function getSpeedData(){
             });        	
         }
     });
+}
+
+function onPause() {
+	// if it is running we need to stop so we don't drain the battery
+	if (watchID != null) {
+		watchLocation();
+		hasBeenStopped = true;
+	}
+}
+
+function onResume() {
+	if(hasBeenStopped){
+		watchLocation();
+		hasBeenStopped = false;
+	}
 }
 
 function getOrientation(){
@@ -130,4 +157,22 @@ function setStyles(){
 		newMargin = Math.round(whitespaceHeight / 2) - fixedMarginSpacing;
 		$("#speeds,#compass").css("margin",newMargin+"px 0px");
 	}
+}
+// Load Pages
+function loadMain(){
+	$("#content").load("main.html", function() {
+		// nothing for now
+	});	
+}
+
+function loadSettings(){
+	$("#content").load("settings.html", function() {
+		checkStorage()
+	    getSettings();
+	});	
+}
+function loadDisclaimer(){
+	$("#content").load("disclaimer.html", function() {
+		// nothing for now
+	});	
 }

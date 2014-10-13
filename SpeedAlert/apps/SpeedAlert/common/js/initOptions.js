@@ -20,6 +20,7 @@
 	
 	// # The options of busy indicator used during application start up
 	//busyOptions: {text: "Loading..."}
+	
 };
 
 if (window.addEventListener) {
