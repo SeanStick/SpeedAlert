@@ -187,9 +187,9 @@ function loadMain(){
 	$("#content").load("main.html", function() {
 		// Auto Run
 		console.log("Auto Start? " + localStorage.autoStartNav);
-		//if (localStorage.autoStartNav == 1){
-		//	watchLocation();
-		//}		
+		if (localStorage.autoStartNav == 1){
+			watchLocation();
+		}		
 	});	
 }
 

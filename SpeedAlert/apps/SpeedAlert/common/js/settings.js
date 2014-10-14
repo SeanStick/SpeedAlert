@@ -23,7 +23,7 @@ function getSettings(){
 	$("#howFarSlide").simpleSlider("setValue", localStorage.howFar);	
 	$("#maxSpeed").val(localStorage.maxSpeed);
 	$("#howOften").val(localStorage.howOften);
-	if (localStorage.autoStartNav = 1){
+	if (localStorage.autoStartNav == 1){
 		$("#autoStart").prop("checked", true);
 	}
 	$("#playSound").val(localStorage.playSound);	
@@ -35,11 +35,11 @@ function saveSettings(){
 	localStorage.maxSpeed = $("#maxSpeed").val();
 	localStorage.howOften = $("#howOften").val();
 	if ($("#autoStart").is(":checked")){
-		localStorage.autoStartNavNav = 1;
+		localStorage.autoStartNav = 1;
 		console.log("Auto start 1: " + localStorage.autoStartNav)
 	}
 	else{
-		localStorage.autoStartNavNav = 0;
+		localStorage.autoStartNav = 0;
 		console.log("Auto start 0: " + localStorage.autoStartNav)
 	}
 	localStorage.playSound = $("#playSound").val();
