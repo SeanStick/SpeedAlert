@@ -38,7 +38,11 @@ function wlCommonInit(){
 	 console.log("Auto start : " + localStorage.autoStartNav);
 }
 
-function watchLocation(){
+function watchLocation(){	
+	if (localStorage.compassType != 1){
+		$("#compass").css('background-image', 'none');
+		$("#compassNeedle").hide();
+	}
 	chart = new google.visualization.Gauge(document.getElementById('speedBox'));
 	chart.draw(data, options);
 	hasFinished = true;	 
@@ -55,7 +59,17 @@ function watchLocation(){
 		 function(success){		
 			 currentLat = success.coords.latitude;
 			 currentLong = success.coords.longitude;
-			 $("#compassNeedle").rotate({animateTo:success.coords.heading});
+			 if (localStorage.compassType == 1){
+				 $("#compassNeedle").rotate({animateTo:success.coords.heading});
+			 }
+			 else if(localStorage.compassType == 2){
+				 x = getHeadingText(120);					
+				 $("#compass").html(x);
+			 }
+			 else{
+				 $("#compass").html();
+			 }
+			 
 			 
 			 data.setValue(0, 1, Math.round(success.coords.speed * 2.23694));			    
 			 chart.draw(data, options);
@@ -144,6 +158,88 @@ function getSpeedData(){
         }
     });
 }
+
+
+
+
+
+
+
+function getHeadingText (heading){
+	var dir;
+	if (heading >= 0 && heading <= 11.25){
+		dir = "N";
+	}
+	
+	if (heading > 348.75 && heading <= 360){
+		dir = "N";
+	}
+	
+	if (heading > 11.25 && heading <= 33.75){
+		dir = "NNE";
+	}
+	
+	if (heading > 33.75 && heading <= 56.25){
+		dir = "NE";
+	}
+	
+	if (heading > 56.25 && heading <= 78.75){
+		dir = "ENE";
+	}
+	
+	if (heading > 78.75 && heading <= 101.25){
+		dir = "E";
+	}
+	
+	if (heading > 101.25 && heading <= 123.75){
+		dir = "ESE";
+	}
+	
+	if (heading > 123.75 && heading <= 146.25){
+		dir = "SE";
+	}
+	
+	if (heading > 146.25 && heading <= 168.75){
+		dir = "SSE";
+	}
+	
+	if (heading > 168.75 && heading <= 191.25){
+		dir = "S";
+	}
+	
+	if (heading > 191.25 && heading <= 213.75){
+		dir = "SSW";
+	}
+	
+	if (heading > 213.75 && heading <= 236.25){
+		dir = "SW";
+	}
+	
+	if (heading > 236.25 && heading <= 258.75){
+		dir = "WSW";
+	}
+	
+	if (heading > 258.75 && heading <= 281.25){
+		dir = "W";
+	}
+	
+	if (heading > 281.25 && heading <= 303.75){
+		dir = "WNW";
+	}
+	
+	if (heading > 303.75 && heading <= 326.25){
+		dir = "NW";
+	}
+	
+	if (heading > 326.25 && heading <= 348.75){
+		dir = "NNW";
+	}
+	return dir;
+}
+
+
+
+
 
 function onPause() {
 	// if it is running we need to stop so we don't drain the battery

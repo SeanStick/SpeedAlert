@@ -10,8 +10,11 @@ function checkStorage(){
 		localStorage.howOften = "60";
 	}
 	if (! localStorage.autoStartNavNav){
-		localStorage.autoStartNavNav = "0";
-	}	
+		localStorage.autoStartNav = "0";
+	}
+	if (! localStorage.compassType){
+		localStorage.compassType = "0";
+	}
 	if (! localStorage.playSound){
 		localStorage.playSound = "0";
 	}
@@ -26,6 +29,7 @@ function getSettings(){
 	if (localStorage.autoStartNav == 1){
 		$("#autoStart").prop("checked", true);
 	}
+	$("#compassType").val(localStorage.compassType);
 	$("#playSound").val(localStorage.playSound);	
 	
 }
@@ -33,7 +37,7 @@ function getSettings(){
 function saveSettings(){
 	localStorage.howFar = $("#howFarSlide").val();
 	localStorage.maxSpeed = $("#maxSpeed").val();
-	localStorage.howOften = $("#howOften").val();
+	localStorage.howOften = $("#howOften").val();	
 	if ($("#autoStart").is(":checked")){
 		localStorage.autoStartNav = 1;
 		console.log("Auto start 1: " + localStorage.autoStartNav)
@@ -42,6 +46,7 @@ function saveSettings(){
 		localStorage.autoStartNav = 0;
 		console.log("Auto start 0: " + localStorage.autoStartNav)
 	}
+	localStorage.compassType = $("#compassType option:selected").val();
 	localStorage.playSound = $("#playSound").val();
 	loadMain();
 }
