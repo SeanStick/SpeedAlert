@@ -1,3 +1,6 @@
+// Global variables
+var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished, chart, options, data, visualization = null;
+var hasBeenStopped = false;
 function wlCommonInit(){
 	setStyles();
 	$("#toolsButton,#menuBackdrop").click(function(event){
@@ -11,7 +14,7 @@ function wlCommonInit(){
 		setStyles();
 	});
 	//	load the main content
-	$("#content").load("main.html");
+	loadMain();
 	$("#settings").click(function(){
 		loadSettings();
 	});
@@ -20,29 +23,32 @@ function wlCommonInit(){
 	});	
 	document.addEventListener("pause", onPause, false);
 	document.addEventListener("resume", onResume, false);
+	//Google Charts
 	
+	options = {
+	          width: 100, height: 120,
+	          minorTicks: 5
+	        };
+	data = google.visualization.arrayToDataTable([
+	                                              ['Label', 'Value'],
+	                                              ['Speed', 0]
+	                                            ]);
+	chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+	 visualization = new google.visualization.Gauge(container);
+	 console.log("Auto start : " + localStorage.autoStartNav);
 }
-// Global variables
-var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished = null;
-var hasBeenStopped = false;
+
 function watchLocation(){
-	hasFinished = true;
-	 speed = new JustGage({
-	    id: "speed",
-	    value: 0,
-	    min: 0,
-	    max: localStorage.maxSpeed,
-	    title: "Current Speed",
-	    relativeGaugeSize: "true"
-	  });
-	 
+	chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+	chart.draw(data, options);
+	hasFinished = true;	 
 	 if (watchID != null) {
 	    navigator.geolocation.clearWatch(watchID);
 	    watchID = null;
 	    $("#speed,#speedLimit").html("");
 	    $("#startStopGPS").html("Start").css("background-color","green");
 	    clearInterval(theTimer);
-	    $("#compass").hide();
+	    $("#compass,#speedBox").hide();
 	 }
 	 else {
 		 watchID = navigator.geolocation.watchPosition(
@@ -50,13 +56,16 @@ function watchLocation(){
 			 currentLat = success.coords.latitude;
 			 currentLong = success.coords.longitude;
 			 $("#compassNeedle").rotate({animateTo:success.coords.heading});
-			 speed.refresh(Math.round(success.coords.speed * 2.23694));
+			 
+			 data.setValue(0, 1, Math.round(success.coords.speed * 2.23694));			    
+			 chart.draw(data, options);
 		 }, function(error){
 			 alert("Error code:" + error.code + "\n" + "Error message: " + error.message + "\n");
 		 },
 		 {enableHighAccuracy: true}); 
 		 $("#startStopGPS").html("Stop").css("background-color","red");
-		 $("#compass").show();
+		 $("#compass,#speedBox").show();
+		 
 		// tryIt();
 		 theTimer = setInterval(function() {
 			tryIt();
@@ -114,7 +123,22 @@ function getSpeedData(){
         	$(xml).find("osm").find("tag[k='maxspeed']").each(function() {        		
              //alert ($(this).attr ('v'));
         		//if (row == 0){
-        			$("#speedLimit").html("Speed Limit<br />"+$(this).attr ('v')+ " ");
+        			//remove everything that isn't a number
+        			var curSpeed = $(this).attr('v').match(/\d+/)[0]
+        			$("#speedLimit").html("Speed Limit<br />"+ curSpeed + " mph ");
+        			options.yellowFrom = parseInt(curSpeed);
+        		    options.yellowTo = parseInt(curSpeed) + 5;
+        		    options.redFrom = parseInt(curSpeed) + 6;
+        		    options.redTo = localStorage.maxSpeed;        		    
+        			chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+        			chart.draw(data, options);
+        			if (localStorage.playSound > 0){
+        				curSpeedSound = parseInt(curSpeed) + parseInt(localStorage.playSound);
+        				if ( curSpeedSound >= curSpeed){
+        					console.log("Play Sound");
+        					//playAudio("sounds/icq.mp3");
+        				}
+        			}
         		//}        		        		
             });        	
         }
@@ -143,7 +167,6 @@ function getOrientation(){
 function setStyles(){
 	contentHeight = $(window).height() - $("#header").height();
 	fixedMarginSpacing = Math.round(contentHeight * .04);
-	console.log(fixedMarginSpacing);
 	if(getOrientation() == "portrait"){
 		otherHeights = $("#startStopGPS").height() + $("#speeds").height() + $("#compass").height();
 		whitespaceHeight = contentHeight - otherHeights - fixedMarginSpacing;
@@ -158,17 +181,22 @@ function setStyles(){
 		$("#speeds,#compass").css("margin",newMargin+"px 0px");
 	}
 }
+
 // Load Pages
 function loadMain(){
 	$("#content").load("main.html", function() {
-		// nothing for now
+		// Auto Run
+		console.log("Auto Start? " + localStorage.autoStartNav);
+		//if (localStorage.autoStartNav == 1){
+		//	watchLocation();
+		//}		
 	});	
 }
 
 function loadSettings(){
 	$("#content").load("settings.html", function() {
 		checkStorage()
-	    getSettings();
+	    getSettings();s		
 	});	
 }
 function loadDisclaimer(){

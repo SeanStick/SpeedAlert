@@ -9,6 +9,12 @@ function checkStorage(){
 	if (! localStorage.howOften){
 		localStorage.howOften = "60";
 	}
+	if (! localStorage.autoStartNavNav){
+		localStorage.autoStartNavNav = "0";
+	}	
+	if (! localStorage.playSound){
+		localStorage.playSound = "0";
+	}
 }
 
 function getSettings(){
@@ -16,7 +22,11 @@ function getSettings(){
 	$("#howFarSlide").simpleSlider();
 	$("#howFarSlide").simpleSlider("setValue", localStorage.howFar);	
 	$("#maxSpeed").val(localStorage.maxSpeed);
-	$("#howOften").val(localStorage.howOften);	
+	$("#howOften").val(localStorage.howOften);
+	if (localStorage.autoStartNav = 1){
+		$("#autoStart").prop("checked", true);
+	}
+	$("#playSound").val(localStorage.playSound);	
 	
 }
 
@@ -24,5 +34,14 @@ function saveSettings(){
 	localStorage.howFar = $("#howFarSlide").val();
 	localStorage.maxSpeed = $("#maxSpeed").val();
 	localStorage.howOften = $("#howOften").val();
+	if ($("#autoStart").is(":checked")){
+		localStorage.autoStartNavNav = 1;
+		console.log("Auto start 1: " + localStorage.autoStartNav)
+	}
+	else{
+		localStorage.autoStartNavNav = 0;
+		console.log("Auto start 0: " + localStorage.autoStartNav)
+	}
+	localStorage.playSound = $("#playSound").val();
 	loadMain();
 }
