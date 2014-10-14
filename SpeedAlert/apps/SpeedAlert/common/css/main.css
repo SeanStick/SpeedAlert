@@ -64,14 +64,14 @@ body {
 				background-color: green;}
 #startStopGPS{
 	background-color: green;
-}
-#startStopGPS,#getSpeedLimits{
-	width:98%;
-	height:3em;
-	margin:1%;
+	width:96%;
+	height:4em;
+	margin:2%;
 	padding:0;
 	border: 1px solid #dedede;
 	border-radius: 4px;
+	position:fixed;
+	bottom:0;
 }
 @media (orientation:portrait) {
 	#compass{
@@ -90,23 +90,23 @@ body {
 	}
 	#speedLimitBox{
 		float:left;
-		width:40%;
-		height:154px;
+		width:96%%;
+		height:52px;
+		margin:2%;
 	}
 	#speedLimit{
 		font-size:23px;
 		font-weight: bold;
 		text-align:center;
 		position: relative;
-		top: 50%;
-		transform: translateY(-50%);
 	}
 	.speedBox {
-		float:right;
-		width:60%;
+		float:left;
+		width:96%%;
+		margin:2%;
 	}
-	#speed{
-		text-align:center;
+	#speed table{
+		margin:0 auto !important;
 	}
 }
 @media (orientation:landscape) {
@@ -127,11 +127,11 @@ body {
 	}
 	#speeds{
 		float:left;
-		width:65%;
+		width:66%;
 	}
 	#speedLimitBox{
 		float:left;
-		width:40%;
+		width:50%;
 		height:154px;
 	}
 	#speedLimit{
@@ -144,7 +144,7 @@ body {
 	}
 	.speedBox {
 		float:left;
-		width:60%;
+		width:50%;
 	}
 	#speed{
 		text-align:center;

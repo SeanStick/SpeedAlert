@@ -26,14 +26,14 @@ function wlCommonInit(){
 	//Google Charts
 	
 	options = {
-	          width: 100, height: 120,
+	          width: 163, height: 163,
 	          minorTicks: 5
 	        };
 	data = google.visualization.arrayToDataTable([
 	                                              ['Label', 'Value'],
 	                                              ['Speed', 0]
 	                                            ]);
-	chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+	chart = new google.visualization.Gauge(document.getElementById('speed'));
 	 visualization = new google.visualization.Gauge(container);
 	 console.log("Auto start : " + localStorage.autoStartNav);
 }
@@ -43,7 +43,7 @@ function watchLocation(){
 		$("#compass").css('background-image', 'none');
 		$("#compassNeedle").hide();
 	}
-	chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+	chart = new google.visualization.Gauge(document.getElementById('speed'));
 	chart.draw(data, options);
 	hasFinished = true;	 
 	 if (watchID != null) {
@@ -144,7 +144,7 @@ function getSpeedData(){
         		    options.yellowTo = parseInt(curSpeed) + 5;
         		    options.redFrom = parseInt(curSpeed) + 6;
         		    options.redTo = localStorage.maxSpeed;        		    
-        			chart = new google.visualization.Gauge(document.getElementById('speedBox'));
+        			chart = new google.visualization.Gauge(document.getElementById('speed'));
         			chart.draw(data, options);
         			if (localStorage.playSound > 0){
         				curSpeedSound = parseInt(curSpeed) + parseInt(localStorage.playSound);
