@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import org.apache.cordova.CordovaActivity;
 
@@ -22,7 +23,7 @@ public class SpeedAlert extends CordovaActivity implements WLInitWebFrameworkLis
 		WL.getInstance().showSplashScreen(this);
 
 		WL.getInstance().initializeWebFramework(getApplicationContext(), this);
-		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 	}
 
 	/**
