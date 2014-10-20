@@ -1,5 +1,5 @@
 // Global variables
-var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished, chart, options, data, visualization = null;
+var watchID, speed, currentLat, currentLong, calculatedLat, calculatedLong, theTimer, hasFinished, speedometerWidth, speedometerHeight, chart, options, data, visualization = null;
 var hasBeenStopped = false;
 function wlCommonInit(){
 	setStyles();
@@ -12,6 +12,8 @@ function wlCommonInit(){
 	});
 	$(window).on("resize", function(event){
 		setStyles();
+		watchLocation();
+		watchLocation();
 	});
 	//	load the main content
 	loadMain();
@@ -23,10 +25,10 @@ function wlCommonInit(){
 	});	
 	document.addEventListener("pause", onPause, false);
 	document.addEventListener("resume", onResume, false);
-	//Google Charts
 	
+	//Google Charts
 	options = {
-	          width: 163, height: 163,
+	          width: speedometerWidth, height: speedometerHeight,
 	          minorTicks: 5
 	        };
 	data = google.visualization.arrayToDataTable([
@@ -34,14 +36,17 @@ function wlCommonInit(){
 	                                              ['Speed', 0]
 	                                            ]);
 	chart = new google.visualization.Gauge(document.getElementById('speed'));
-	 visualization = new google.visualization.Gauge(container);
-	 console.log("Auto start : " + localStorage.autoStartNav);
+	visualization = new google.visualization.Gauge(container);
+	//console.log("Auto start : " + localStorage.autoStartNav);
 }
 
 function watchLocation(){	
 	if (localStorage.compassType != 1){
-		$("#compass").css('background-image', 'none');
+		$("#compass").css('background-image', 'none').css('text-align','center');
 		$("#compassNeedle").hide();
+	}
+	else{
+		$("#compass").css('text-align','inherit');
 	}
 	chart = new google.visualization.Gauge(document.getElementById('speed'));
 	chart.draw(data, options);
@@ -63,13 +68,15 @@ function watchLocation(){
 				 $("#compassNeedle").rotate({animateTo:success.coords.heading});
 			 }
 			 else if(localStorage.compassType == 2){
-				 x = getHeadingText(120);					
-				 $("#compass").html(x);
+				 x = getHeadingText(success.coords.heading);					
+				 $("#compass").html("<strong>Heading</strong><br />" + x);
+				 if(getOrientation() == "landscape"){
+     				$("#compass").css("height",$("#speeds").height()+"px");
+     			}
 			 }
 			 else{
 				 $("#compass").html();
 			 }
-			 
 			 
 			 data.setValue(0, 1, Math.round(success.coords.speed * 2.23694));			    
 			 chart.draw(data, options);
@@ -90,7 +97,7 @@ function watchLocation(){
 function tryIt(){	
 	if(hasFinished){
 		hasFinished = false;
-		console.log("has finished: " + hasFinished);
+		//console.log("has finished: " + hasFinished);
 		someCrazyLatLongConversion(currentLat,currentLong);		
 	}	
 }
@@ -99,7 +106,7 @@ function someCrazyLatLongConversion(curLat, curLong){
 	var lat1 = curLat;
     var lon1 = curLong;
     var d = localStorage.howFar;
-    console.log("Distance" + d);
+    //console.log("Distance" + d);
     var R = 6371;
     var brng = 0;
     var LatMax;
@@ -112,7 +119,7 @@ function someCrazyLatLongConversion(curLat, curLong){
     lon2= toDeg(lon2);    
     calculatedLat = lat2;
     calculatedLong = lon2;
-    console.log("Current Lat: " + currentLat + "New Lat: " + lat2 + "Current Long" + currentLong + "New Long" + lon2 );
+    //console.log("Current Lat: " + currentLat + "New Lat: " + lat2 + "Current Long" + currentLong + "New Long" + lon2 );
     getSpeedData();
 }
 
@@ -125,7 +132,7 @@ function toRad(Value) {
  
 function getSpeedData(){
 	path = 'http://www.overpass-api.de/api/xapi?*[maxspeed=*][bbox=' + currentLong + ',' + currentLat + ',' + calculatedLong + ',' + calculatedLat +']';
-	console.log(path);
+	//console.log(path);
 	row = 0;
 	$.ajax({
         type: "GET",
@@ -140,6 +147,12 @@ function getSpeedData(){
         			//remove everything that isn't a number
         			var curSpeed = $(this).attr('v').match(/\d+/)[0]
         			$("#speedLimit").html("Speed Limit<br />"+ curSpeed + " mph ");
+        			if(getOrientation() == "landscape"){
+        				$("#speedLimitBox").css("height",$("#speeds").height()+"px");
+        			}
+        			else{
+        				$("#speedLimitBox").css("height","52px");
+        			}
         			options.yellowFrom = parseInt(curSpeed);
         		    options.yellowTo = parseInt(curSpeed) + 5;
         		    options.redFrom = parseInt(curSpeed) + 6;
@@ -158,12 +171,6 @@ function getSpeedData(){
         }
     });
 }
-
-
-
-
-
-
 
 function getHeadingText (heading){
 	var dir;
@@ -237,10 +244,6 @@ function getHeadingText (heading){
 	return dir;
 }
 
-
-
-
-
 function onPause() {
 	// if it is running we need to stop so we don't drain the battery
 	if (watchID != null) {
@@ -262,27 +265,43 @@ function getOrientation(){
 
 function setStyles(){
 	contentHeight = $(window).height() - $("#header").height();
+	contentWidth = $(window).width();
 	fixedMarginSpacing = Math.round(contentHeight * .04);
+	//console.log(getOrientation());
+	//console.log($(window).height());
+	//console.log(contentHeight + " " + contentWidth);
 	if(getOrientation() == "portrait"){
 		otherHeights = $("#startStopGPS").height() + $("#speeds").height() + $("#compass").height();
-		whitespaceHeight = contentHeight - otherHeights - fixedMarginSpacing;
-		newMargin = Math.round(whitespaceHeight / 3);
-		$("#speeds").css("margin",newMargin+"px 0px");
-		$("#compass").css("margin","0 auto");
+		speedometerWidth = speedometerHeight = Math.round(contentWidth * .96);
+		compassHeight = contentHeight - $("#startStopGPS").height() - speedometerHeight - (fixedMarginSpacing*4);
+		$("#speeds").css("margin","2%");
+		$("#compass").css('height',compassHeight+"px");
+		$("#speedLimitBox").css("height","52px");
 	}
 	else{
 		otherHeights = $("#startStopGPS").height() + $("#compass").height();
-		whitespaceHeight = contentHeight - otherHeights;
-		newMargin = Math.round(whitespaceHeight / 2) - fixedMarginSpacing;
-		$("#speeds,#compass").css("margin",newMargin+"px 0px");
+		workingHeight = contentHeight - $("#startStopGPS").height();
+		workingHeight = workingHeight - (fixedMarginSpacing*2);
+		speedometerWidth = speedometerHeight = Math.round(workingHeight * .96);
+		$("#speeds").css("margin","0");
+		$("#compass").css("height",speedometerHeight+"px");
+		$("#speedLimitBox").css("height","52px");
+		$("#speedLimitBox").css("height",$("#speeds").height()+"px");
+		//console.log("workingHeight: " + workingHeight);
+		//console.log("speedometerWidth: " + speedometerWidth);
+		//console.log("speedometerHeight: " + speedometerHeight);
 	}
+	options = {
+	          width: speedometerWidth, height: speedometerHeight,
+	          minorTicks: 5
+	        };
 }
 
 // Load Pages
 function loadMain(){
 	$("#content").load("main.html", function() {
 		// Auto Run
-		console.log("Auto Start? " + localStorage.autoStartNav);
+		//console.log("Auto Start? " + localStorage.autoStartNav);
 		if (localStorage.autoStartNav == 1){
 			watchLocation();
 		}		
@@ -292,7 +311,7 @@ function loadMain(){
 function loadSettings(){
 	$("#content").load("settings.html", function() {
 		checkStorage()
-	    getSettings();s		
+	    getSettings();
 	});	
 }
 function loadDisclaimer(){
