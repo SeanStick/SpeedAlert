@@ -9,7 +9,7 @@ function checkStorage(){
 	if (! localStorage.howOften){
 		localStorage.howOften = "60";
 	}
-	if (! localStorage.autoStartNavNav){
+	if (! localStorage.autoStartNav){
 		localStorage.autoStartNav = "0";
 	}
 	if (! localStorage.compassType){
@@ -17,6 +17,9 @@ function checkStorage(){
 	}
 	if (! localStorage.playSound){
 		localStorage.playSound = "0";
+	}
+	if (! localStorage.selectTheme){
+		localStorage.selectTheme = "theme1.css";
 	}
 }
 
@@ -30,7 +33,11 @@ function getSettings(){
 		$("#autoStart").prop("checked", true);
 	}
 	$("#compassType").val(localStorage.compassType);
-	$("#playSound").val(localStorage.playSound);	
+	$("#playSound").val(localStorage.playSound);
+	var shortTheme = localStorage.selectTheme;
+	shortTheme = shortTheme.substring(0, shortTheme.length - 4);
+	alert(shortTheme);
+	$("#" + shortTheme).prop("checked", true);
 	
 }
 
@@ -48,5 +55,7 @@ function saveSettings(){
 	}
 	localStorage.compassType = $("#compassType option:selected").val();
 	localStorage.playSound = $("#playSound").val();
+	localStorage.selectTheme = $('input[name=myTheme]:checked').val();
+	 $("#theme").attr("href", "css/" + localStorage.selectTheme);
 	loadMain();
 }

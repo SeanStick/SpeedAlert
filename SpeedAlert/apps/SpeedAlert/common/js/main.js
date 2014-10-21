@@ -38,6 +38,7 @@ function wlCommonInit(){
 	chart = new google.visualization.Gauge(document.getElementById('speed'));
 	visualization = new google.visualization.Gauge(container);
 	//console.log("Auto start : " + localStorage.autoStartNav);
+	 $("#theme").attr("href", "css/" + localStorage.selectTheme); 
 }
 
 function watchLocation(){	
