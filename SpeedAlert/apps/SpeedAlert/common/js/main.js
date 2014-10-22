@@ -78,7 +78,10 @@ function watchLocation(){
 			 else{
 				 $("#compass").html();
 			 }
-			 
+			 if(Math.round(success.coords.speed * 2.23694) >= localStorage.maxSpeed){
+ 				localStorage.maxSpeed = parseInt(Math.round(success.coords.speed * 2.23694)) + 10;
+ 				options.max = localStorage.maxSpeed;
+ 			}
 			 data.setValue(0, 1, Math.round(success.coords.speed * 2.23694));			    
 			 chart.draw(data, options);
 		 }, function(error){
@@ -155,10 +158,12 @@ function getSpeedData(){
 	        			else{
 	        				$("#speedLimitBox").css("height","52px");
 	        			}
+	        			
 	        			options.yellowFrom = parseInt(curSpeed);
 	        		    options.yellowTo = parseInt(curSpeed) + 5;
 	        		    options.redFrom = parseInt(curSpeed) + 6;
-	        		    options.redTo = localStorage.maxSpeed;        		    
+	        		    options.redTo = localStorage.maxSpeed;  
+	        		    
 	        			chart = new google.visualization.Gauge(document.getElementById('speed'));
 	        			chart.draw(data, options);
 	        			if (localStorage.playSound > 0){
