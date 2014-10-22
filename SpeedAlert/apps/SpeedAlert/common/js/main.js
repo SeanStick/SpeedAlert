@@ -142,32 +142,34 @@ function getSpeedData(){
         dataType: "xml",
         success: function(xml) {
         	hasFinished = true;
-        	$(xml).find("osm").find("tag[k='maxspeed']").each(function() {        		
-             //alert ($(this).attr ('v'));
-        		//if (row == 0){
-        			//remove everything that isn't a number
-        			var curSpeed = $(this).attr('v').match(/\d+/)[0]
-        			$("#speedLimit").html("Speed Limit<br />"+ curSpeed + " mph ");
-        			if(getOrientation() == "landscape"){
-        				$("#speedLimitBox").css("height",$("#speeds").height()+"px");
-        			}
-        			else{
-        				$("#speedLimitBox").css("height","52px");
-        			}
-        			options.yellowFrom = parseInt(curSpeed);
-        		    options.yellowTo = parseInt(curSpeed) + 5;
-        		    options.redFrom = parseInt(curSpeed) + 6;
-        		    options.redTo = localStorage.maxSpeed;        		    
-        			chart = new google.visualization.Gauge(document.getElementById('speed'));
-        			chart.draw(data, options);
-        			if (localStorage.playSound > 0){
-        				curSpeedSound = parseInt(curSpeed) + parseInt(localStorage.playSound);
-        				if ( curSpeedSound >= curSpeed){
-        					console.log("Play Sound");
-        					//playAudio("sounds/icq.mp3");
-        				}
-        			}
-        		//}        		        		
+        	$(xml).find("osm").find("tag[k='maxspeed']").each(function() {
+        		if(watchID != null){
+        			//alert($(this).attr('v'));
+	        		//if (row == 0){
+	        			//remove everything that isn't a number
+	        			var curSpeed = $(this).attr('v').match(/\d+/)[0];
+	        			$("#speedLimit").html("Speed Limit<br />"+ curSpeed + " mph ");
+	        			if(getOrientation() == "landscape"){
+	        				$("#speedLimitBox").css("height",$("#speeds").height()+"px");
+	        			}
+	        			else{
+	        				$("#speedLimitBox").css("height","52px");
+	        			}
+	        			options.yellowFrom = parseInt(curSpeed);
+	        		    options.yellowTo = parseInt(curSpeed) + 5;
+	        		    options.redFrom = parseInt(curSpeed) + 6;
+	        		    options.redTo = localStorage.maxSpeed;        		    
+	        			chart = new google.visualization.Gauge(document.getElementById('speed'));
+	        			chart.draw(data, options);
+	        			if (localStorage.playSound > 0){
+	        				curSpeedSound = parseInt(curSpeed) + parseInt(localStorage.playSound);
+	        				if ( curSpeedSound >= curSpeed){
+	        					console.log("Play Sound");
+	        					//playAudio("sounds/icq.mp3");
+	        				}
+	        			}
+	        		//}
+        		}
             });        	
         }
     });

@@ -1,20 +1,30 @@
 <div id="saveSettings"><button class="greenButton" onClick="saveSettings();">Save</button></div>
 <div class="clearBoth"></div>
 
-<div>Accuracy: <input type="text" data-slider-range=".160935,.804674" id="howFarSlide"></div>
-<div>Max speedometer: <input type="number" id="maxSpeed" value="" /></div>
-<div>Pull data: <input type="number" id="howOften" value="" /></div>
-<div>Auto Start: <input type="checkbox" id="autoStart" value="" /></div>
-<div>Compass Type: 
+<div class="setting">Accuracy: <input type="text" data-slider-range=".160935,.804674" id="howFarSlide"></div>
+<div class="setting">Max speedometer: <input type="number" id="maxSpeed" value="" style="width:3em;" /> mph</div>
+<div class="setting">Check speed limit every: <input type="number" id="howOften" value="" style="width:3em;" /> seconds</div>
+<div class="setting">Auto Start: 
+	<div class="onoffswitch">
+	    <input type="checkbox" name="autoStart" class="onoffswitch-checkbox" id="autoStart">
+	    <label class="onoffswitch-label" for="autoStart">
+	        <span class="onoffswitch-inner">
+	            <span class="onoffswitch-active"><span class="onoffswitch-switch">ON</span></span>
+	            <span class="onoffswitch-inactive"><span class="onoffswitch-switch">OFF</span></span>
+	        </span>
+	    </label>
+	</div>
+</div>
+<div class="setting">Compass Type: 
 <select name="compassType" id="compassType">
 	<option value="0">None</option>
 	<!--<option value="1">Image</option>-->
 	<option value="2">Text</option>
 </select>
 </div>
-<div>Play sound when speeding over: <input type="number" id="playSound" value="" /></div>
-<div> Select theme: 
-	<input type="radio" id="theme1" name="myTheme" value="theme1.css" /> Blue
-	<input type="radio" id="theme2" name="myTheme" value="theme2.css" /> Orange
-	<input type="radio" id="theme3" name="myTheme" value="theme3.css" /> Pink
-</div> 
+<div class="setting">Play sound when speeding over: <input type="number" id="playSound" value="" style="width:3em;" /> mph</div>
+<div class="setting"> Select theme: 
+	<input type="radio" id="theme1" name="myTheme" value="theme1.css" /><label for="theme1"> Blue</label>
+	<input type="radio" id="theme2" name="myTheme" value="theme2.css" /><label for="theme2"> Orange</label>
+	<input type="radio" id="theme3" name="myTheme" value="theme3.css" /><label for="theme3"> Pink</label>
+</div>

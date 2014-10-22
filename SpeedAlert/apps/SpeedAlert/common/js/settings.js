@@ -36,7 +36,6 @@ function getSettings(){
 	$("#playSound").val(localStorage.playSound);
 	var shortTheme = localStorage.selectTheme;
 	shortTheme = shortTheme.substring(0, shortTheme.length - 4);
-	alert(shortTheme);
 	$("#" + shortTheme).prop("checked", true);
 	
 }
