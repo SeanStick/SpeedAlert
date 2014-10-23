@@ -21,6 +21,10 @@ body {
 #saveSettings{
 	float:right;
 }
+#previousButton{
+	float:left;
+	margin-right:.2em;
+}
 #toolsButton{
 	float:right;
 	margin-right:.2em;

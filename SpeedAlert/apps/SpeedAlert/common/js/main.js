@@ -7,6 +7,13 @@ function wlCommonInit(){
 		event.stopPropagation();
 		$("#toolsMenu,#menuBackdrop").toggle();
 	});
+	$("#previousButton").click(function(event){
+		event.stopPropagation();
+		if(currentScreen == "settings"){
+			saveSettings();
+		}
+		loadMain();
+	});
 	$('html').click(function() {
 		$("#toolsMenu,#menuBackdrop").hide();
 	});
@@ -312,18 +319,26 @@ function loadMain(){
 		//console.log("Auto Start? " + localStorage.autoStartNav);
 		if (localStorage.autoStartNav == 1){
 			watchLocation();
-		}		
+		}
+		currentScreen = "main";
+		$("#previousButton").hide();
+		$("#toolsButton").show();
 	});	
 }
 
 function loadSettings(){
 	$("#content").load("settings.html", function() {
-		checkStorage()
+		checkStorage();
 	    getSettings();
+		currentScreen = "settings";
+		$("#previousButton").show();
+		$("#toolsButton").hide();
 	});	
 }
 function loadDisclaimer(){
 	$("#content").load("disclaimer.html", function() {
-		// nothing for now
+		currentScreen = "disclaimer";
+		$("#previousButton").show();
+		$("#toolsButton").hide();
 	});	
 }
